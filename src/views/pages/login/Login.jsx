@@ -30,17 +30,14 @@ const Login = () => {
         const resultAction = await dispatch(login(values));
         console.log("Login result:", resultAction);
         if (login.fulfilled.match(resultAction)) {
-          const { token, user } = resultAction.payload || {};
-
           toast.success("Login successful!");
           navigate("/dashboard");
         } else {
+          console
           toast.error("Invalid credentials or account is deactivated.");
         }
       } catch (error) {
         console.error("Login failed:", error);
-        toast.error("Invalid credentials or account is deactivated.");
-        // toast.error("An unexpected error occurred");
       } finally {
         setSubmitting(false);
       }
@@ -48,58 +45,51 @@ const Login = () => {
   });
 
   const handleForgotPassword = () => {
-    navigate("/forgot-password"); // Update with your actual route
+    navigate("/forgot-password");
   };
 
   const handleSignUp = () => {
-    navigate("/signup"); // Update with your actual route
+    navigate("/signup");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900 flex items-center justify-center px-4 py-8">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,_rgba(255,255,255,0.15)_1px,_transparent_0)] bg-[length:20px_20px] opacity-20"></div>
-
-      <div className="relative w-full max-w-md">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
         {/* Main Card */}
-        <div className="bg-gray-800/70 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl p-8 relative overflow-hidden">
-          {/* Subtle glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5 rounded-2xl"></div>
-
+        <div className="bg-white/80 backdrop-blur-lg border border-gray-200/50 rounded-3xl shadow-xl p-8">
           {/* Header */}
-          <div className="relative z-10 text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-              <Lock className="w-8 h-8 text-gray-300" />
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Lock className="w-7 h-7 text-indigo-600" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-gray-400">Sign in to your account</p>
+            <h1 className="text-2xl font-bold text-gray-900">Login</h1>
+            <p className="text-gray-500 text-sm mt-1">
+              Login to continue your journey
+            </p>
           </div>
 
-          <form
-            className="relative z-10 space-y-6"
-            onSubmit={formik.handleSubmit}
-          >
+          <form className="space-y-5" onSubmit={formik.handleSubmit}>
             {/* Email Field */}
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-300 mb-2"
+                className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Email Address
+                Email
               </label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-blue-400 transition-colors" />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                  <Mail className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
                   type="email"
                   id="email"
                   name="email"
-                  placeholder="Enter your email"
-                  className={`w-full pl-10 pr-4 py-3 bg-gray-700/50 border-2 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:bg-gray-700/70 transition-all duration-200 ${
+                  placeholder="Email address"
+                  className={`w-full pl-10 pr-4 py-2.5 bg-white border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all ${
                     formik.errors.email && formik.touched.email
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-600 hover:border-gray-500"
+                      ? "border-red-300"
+                      : "border-gray-200"
                   }`}
                   value={formik.values.email}
                   onChange={formik.handleChange}
@@ -107,8 +97,7 @@ const Login = () => {
                 />
               </div>
               {formik.errors.email && formik.touched.email && (
-                <p className="text-red-400 text-sm mt-2 flex items-center">
-                  <span className="w-4 h-4 mr-1">⚠</span>
+                <p className="text-red-500 text-xs mt-1">
                   {formik.errors.email}
                 </p>
               )}
@@ -118,23 +107,23 @@ const Login = () => {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-300 mb-2"
+                className="block text-sm font-medium text-gray-700 mb-1"
               >
                 Password
               </label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-blue-400 transition-colors" />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                  <Lock className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
-                  placeholder="Enter your password"
-                  className={`w-full pl-10 pr-12 py-3 bg-gray-700/50 border-2 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:bg-gray-700/70 transition-all duration-200 ${
+                  placeholder="Password"
+                  className={`w-full pl-10 pr-12 py-2.5 bg-white border rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all ${
                     formik.errors.password && formik.touched.password
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-gray-600 hover:border-gray-500"
+                      ? "border-red-300"
+                      : "border-gray-200"
                   }`}
                   value={formik.values.password}
                   onChange={formik.handleChange}
@@ -142,7 +131,7 @@ const Login = () => {
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-300 transition-colors hover:cursor-pointer"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
@@ -153,34 +142,47 @@ const Login = () => {
                 </button>
               </div>
               {formik.errors.password && formik.touched.password && (
-                <p className="text-red-400 text-sm mt-2 flex items-center">
-                  <span className="w-4 h-4 mr-1">⚠</span>
+                <p className="text-red-500 text-xs mt-1">
                   {formik.errors.password}
                 </p>
               )}
+            </div>
+
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                className="text-indigo-600 text-sm hover:text-indigo-700 transition-colors"
+              >
+                Forgot Password?
+              </button>
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
               disabled={formik.isSubmitting}
-              className={`w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800  hover:cursor-pointer text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl focus:ring-4 focus:ring-blue-500/30 focus:outline-none ${
-                formik.isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+              className={`w-full bg-indigo-600 text-white font-medium py-2.5 px-4 rounded-lg transition-all hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${
+                formik.isSubmitting ? "opacity-70 cursor-not-allowed" : ""
               }`}
             >
               {formik.isSubmitting ? "Signing In..." : "Sign In"}
             </button>
 
-            {/* Forgot Password Link */}
-            <div className="text-center pt-2">
-              <button
-                type="button"
-                onClick={handleForgotPassword}
-                className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors hover:underline hover:cursor-pointer"
-              >
-                Forgot your password?
-              </button>
-            </div>
+            {/* Sign Up Link
+            <div className="text-center">
+              <p className="text-sm text-gray-500">
+                Don't have an account?{" "}
+                <button
+                  type="button"
+                  onClick={handleSignUp}
+                  className="text-indigo-600 hover:text-indigo-700 font-medium"
+                >
+                  Sign Up
+                </button>
+              </p>
+            </div> */}
           </form>
         </div>
       </div>
