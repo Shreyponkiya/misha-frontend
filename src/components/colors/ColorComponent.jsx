@@ -107,7 +107,7 @@ const ColorComponent = () => {
         hex: formData.hex,
       };
       const postResponse = await POST(CREATE_COLOR_URL, newColor);
-      if (postResponse.statusCode === 201) {
+      if (postResponse.statuscode === 201) {
         toast.success(postResponse.message || "Color created successfully");
       } else {
         toast.error(postResponse.message || "Failed to create color");
@@ -160,7 +160,7 @@ const ColorComponent = () => {
               : color
           )
         );
-        if (response.statusCode === 200) {
+        if (response.statuscode === 200) {
           toast.success(response.message || "Color updated successfully");
         } else {
           toast.error(response.message || "Failed to update color");
@@ -183,7 +183,7 @@ const ColorComponent = () => {
     setIsLoading(true);
     try {
       const deleteResponse = await DELETE(`${DELETE_COLOR_URL}/${_id}`);
-      if (deleteResponse.statusCode === 200) {
+      if (deleteResponse.statuscode === 200) {
         toast.success(deleteResponse.message || "Color deleted successfully");
       } else {
         toast.error(deleteResponse.message || "Failed to delete color");
