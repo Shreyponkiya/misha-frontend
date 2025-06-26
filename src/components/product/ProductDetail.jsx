@@ -123,10 +123,10 @@ const ProductDetail = () => {
             <span className="text-gray-600">(9)</span>
           </div>
           <div className="mt-2 text-xl font-bold text-gray-800">
-            ${discountedPrice}{" "}
+            ₹{discountedPrice}{" "}
             {displayProduct.discount > 0 && (
               <span className="text-gray-500 line-through text-base">
-                ${displayProduct.base_price.toFixed(2)}
+                ₹{displayProduct.base_price.toFixed(2)}
               </span>
             )}
           </div>
