@@ -79,8 +79,8 @@ const DeleteCategory = ({
         disabled={deleteLoading === categoryId}
         className={`p-1 rounded hover:cursor-pointer hover:cursor-pointer${
           deleteLoading === categoryId
-            ? "text-gray-400 cursor-not-allowed"
-            : "text-red-600 hover:text-red-900 hover:bg-red-50"
+            ? "text-red-600 hover:text-red-900 cursor-not-allowed"
+            : "text-red-600 hover:text-red-900 "
         }`}
         title="Delete Category"
       >
