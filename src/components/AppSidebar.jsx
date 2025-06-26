@@ -25,12 +25,12 @@ const AppSidebar = ({
   return (
     <>
       {/* Mobile & Laptop Toggle Button - Show on screens smaller than 1280px */}
-      <button
+{/*       <button
         className="xl:hidden fixed top-4 left-4 z-50 p-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors"
         onClick={handleSidebarToggle}
       >
         <Menu className="w-5 h-5" />
-      </button>
+      </button> */}
 
       {/* Sidebar Content */}
       <div className="h-full bg-gray-900 text-white border-r border-gray-700 flex flex-col transition-all duration-500 ease-in-out">
