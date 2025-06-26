@@ -960,7 +960,7 @@ const ProductList = () => {
                       {product.category?.name || "Uncategorized"}
                     </td>
                     <td className="px-4 py-3 text-sm text-gray-800">
-                      ${product.base_price || 0}
+                      ₹{product.base_price || 0}
                     </td>
                     <td className="px-4 py-3">
                       <span
