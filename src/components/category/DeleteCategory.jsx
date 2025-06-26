@@ -87,7 +87,7 @@ const DeleteCategory = ({
         {deleteLoading === categoryId ? (
           <div className="w-4 h-4 border-2 border-gray-300 border-t-red-600 rounded-full animate-spin"></div>
         ) : (
-          <Trash2 className="w-4 h-4" />
+          <Trash2 className="w-4 h-4 text-red-600" />
         )}
       </button>
 
