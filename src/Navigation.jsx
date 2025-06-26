@@ -17,11 +17,7 @@ const navigation = [
   {
     name: "Dashboard",
     to: "/dashboard",
-    icon: <LayoutDashboard className="w-5 h-5" />,
-    badge: {
-      color: "info",
-      text: "NEW",
-    },
+    icon: <LayoutDashboard className="w-5 h-5" />
   },
   // {
   //   name: "Product Management",
