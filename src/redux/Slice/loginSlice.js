@@ -32,7 +32,7 @@ export const login = createAsyncThunk(
       }
     } catch (error) {
       return rejectWithValue(
-        error.response?.message || error.message || "Login failed"
+        response || "Login failed"
       );
     }
   }
