@@ -39,6 +39,7 @@ const Login = () => {
         }
       } catch (error) {
         console.error("Login failed:", error);
+        toast.error("Invalid credentials or account is deactivated.");
         // toast.error("An unexpected error occurred");
       } finally {
         setSubmitting(false);
