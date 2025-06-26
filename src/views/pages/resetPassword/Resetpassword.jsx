@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
+import { Eye, EyeOff } from "lucide-react";
 import { resetPassword } from "../../../redux/Slice/loginSlice";
 
 const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { isLoading, isError, errorMessage, isSuccess } = useSelector(
     (state) => state.login
@@ -18,7 +21,11 @@ const ResetPassword = () => {
   useEffect(() => {
     if (!token) {
       toast.error(
-        "Invalid or missing reset token. Please request a new password reset."
+        "Invalid or missing reset token. Please request a new password reset.",
+        {
+          position: "top-center",
+          autoClose: 3000,
+        }
       );
       navigate("/forgot-password");
     }
@@ -26,7 +33,10 @@ const ResetPassword = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Password reset successful! Redirecting to login...");
+      toast.success("Password reset successful! Redirecting to login...", {
+        position: "top-center",
+        autoClose: 2000,
+      });
     }
   }, [isSuccess]);
 
@@ -60,43 +70,57 @@ const ResetPassword = () => {
         const resultAction = await dispatch(resetPassword(requestData));
 
         if (resetPassword.fulfilled.match(resultAction)) {
-          toast.success("Password has been reset successfully!");
+          toast.success("Password has been reset successfully!", {
+            position: "top-right",
+            autoClose: 2000,
+          });
           setTimeout(() => {
             navigate("/login");
           }, 2000);
         } else {
           toast.error(
             resultAction.payload ||
-              "Failed to reset password. Please try again."
+              "Failed to reset password. Please try again.",
+            {
+              position: "top-right",
+              autoClose: 3000,
+            }
           );
         }
       } catch (error) {
-        toast.error("An unexpected error occurred. Please try again.");
+        toast.error("An unexpected error occurred. Please try again.", {
+          position: "top-center",
+          autoClose: 3000,
+        });
         console.error(error);
       }
     },
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white shadow-xl rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">
-            Reset Password
-          </h2>
-          <p className="text-center text-gray-600 mb-6">
-            Enter your new password below
-          </p>
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="w-full max-w-sm sm:max-w-md">
+        {/* Main Card */}
+        <div className="bg-white border border-gray-100 rounded-2xl shadow-md p-6 sm:p-8">
+          {/* Header */}
+          <div className="text-center mb-6">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+              Reset Password
+            </h2>
+            <p className="text-gray-500 text-sm mt-1">
+              Set a new password for your account
+            </p>
+          </div>
 
           {isError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-4">
+            <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-2 rounded-md mb-4 text-center text-sm">
               {errorMessage ||
                 "An error occurred while resetting your password."}
             </div>
           )}
 
           {isSuccess && (
-            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md mb-4">
+            <div className="bg-green-50 border border-green-100 text-green-600 px-4 py-2 rounded-md mb-4 text-center text-sm">
               Password has been reset successfully! Redirecting to login...
             </div>
           )}
@@ -106,27 +130,40 @@ const ResetPassword = () => {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-700"
               >
                 New Password
               </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter New Password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                disabled={isLoading}
-                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
-                  formik.touched.password && formik.errors.password
-                    ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                    : "border-gray-300"
-                }`}
-              />
+              <div className="relative mt-1 flex items-center">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  placeholder="Enter new password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  disabled={isLoading}
+                  className={`w-full pl-4 pr-10 py-2 bg-gray-50 border rounded-md text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-400 transition-all text-sm sm:text-base ${
+                    formik.touched.password && formik.errors.password
+                      ? "border-red-400"
+                      : "border-gray-200"
+                  }`}
+                />
+                <button
+                  type="button"
+                  className="absolute right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
               {formik.touched.password && formik.errors.password && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-500 text-xs mt-1">
                   {formik.errors.password}
                 </p>
               )}
@@ -136,29 +173,42 @@ const ResetPassword = () => {
             <div>
               <label
                 htmlFor="confirmpassword"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-700"
               >
                 Confirm New Password
               </label>
-              <input
-                type="password"
-                id="confirmpassword"
-                name="confirmpassword"
-                placeholder="Confirm New Password"
-                value={formik.values.confirmpassword}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                disabled={isLoading}
-                className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed ${
-                  formik.touched.confirmpassword &&
-                  formik.errors.confirmpassword
-                    ? "border-red-500 focus:ring-red-500 focus:border-red-500"
-                    : "border-gray-300"
-                }`}
-              />
+              <div className="relative mt-1 flex items-center">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  id="confirmpassword"
+                  name="confirmpassword"
+                  placeholder="Confirm new password"
+                  value={formik.values.confirmpassword}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  disabled={isLoading}
+                  className={`w-full pl-4 pr-10 py-2 bg-gray-50 border rounded-md text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-400 transition-all text-sm sm:text-base ${
+                    formik.touched.confirmpassword &&
+                    formik.errors.confirmpassword
+                      ? "border-red-400"
+                      : "border-gray-200"
+                  }`}
+                />
+                <button
+                  type="button"
+                  className="absolute right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
+              </div>
               {formik.touched.confirmpassword &&
                 formik.errors.confirmpassword && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="text-red-500 text-xs mt-1">
                     {formik.errors.confirmpassword}
                   </p>
                 )}
@@ -168,21 +218,49 @@ const ResetPassword = () => {
             <button
               type="submit"
               disabled={isLoading || !formik.isValid}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed hover:cursor-pointer text-white font-medium py-2 px-4 rounded-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className={`w-full bg-indigo-500 text-white font-medium py-2 rounded-md transition-all hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-1 text-sm sm:text-base ${
+                isLoading || !formik.isValid
+                  ? "opacity-60 cursor-not-allowed"
+                  : ""
+              }`}
             >
-              {isLoading ? "Resetting Password..." : "Reset Password"}
+              {isLoading ? (
+                <span className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin h-5 w-5 mr-2 text-white"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8z"
+                    />
+                  </svg>
+                  Resetting Password...
+                </span>
+              ) : (
+                "Reset Password"
+              )}
             </button>
 
             <div className="flex justify-center space-x-4 text-sm">
               <Link
                 to="/login"
-                className="text-blue-600 hover:text-blue-800 hover:underline transition duration-200"
+                className="text-indigo-500 hover:text-indigo-600 font-medium transition-colors"
               >
                 Back to Login
               </Link>
               <Link
                 to="/forgot-password"
-                className="text-blue-600 hover:text-blue-800 hover:underline transition duration-200"
+                className="text-indigo-500 hover:text-indigo-600 font-medium transition-colors"
               >
                 Request New Reset Link
               </Link>
