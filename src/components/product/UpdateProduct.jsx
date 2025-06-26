@@ -1322,7 +1322,7 @@ const UpdateProduct = ({
               <button
                 type="button"
                 onClick={addVariant}
-                className={`px-4 py-2 rounded-md transition-colors duration-200 hover:cursor-pointer${
+                className={`px-4 py-2 rounded-md transition-colors duration-200 hover:cursor-pointer ${
                   updating || loading
                     ? "bg-gray-400 cursor-not-allowed"
                     : "bg-green-600 text-white hover:bg-green-700 focus:ring-2 focus:ring-green-500"
