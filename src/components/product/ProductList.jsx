@@ -381,10 +381,10 @@ const ProductList = () => {
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg transition-all duration-200 w-full sm:w-auto hover:cursor-pointer${
+              className={`flex items-center gap-2 px-4 py-2.5 border border-gray-300 rounded-lg transition-all duration-200 w-full sm:w-auto hover:cursor-pointer ${
                 showFilters || hasActiveFilters()
                   ? "bg-blue-500 text-white hover:bg-blue-600"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
+                  : "bg-blue-500 text-white hover:bg-blue-600"
               }`}
             >
               <Filter size={20} />

@@ -136,7 +136,8 @@ const UpdateProduct = ({
     } else if (name === "variant_sizes" && variantIndex !== null) {
       if (!value || value.length === 0) error = "At least one size is required";
     } else if (name === "variant_images" && variantIndex !== null) {
-      if (!value || value.length === 0) error = "At least one image is required";
+      if (!value || value.length === 0)
+        error = "At least one image is required";
     } else if (name === "variant_stock" && variantIndex !== null) {
       if (!value.some((size) => size.stock && parseInt(size.stock) >= 0))
         error = "At least one size must have valid stock";
@@ -154,12 +155,16 @@ const UpdateProduct = ({
     errors.base_price = validateField("base_price", editData.base_price);
     errors.brand = validateField("brand", editData.brand);
     errors.discount = validateField("discount", editData.discount);
-    errors.material = validateField("material", editData.specifications.material);
+    errors.material = validateField(
+      "material",
+      editData.specifications.material
+    );
     errors.fit = validateField("fit", editData.specifications.fit);
 
     editData.collections.forEach((collection, index) => {
       if (collection.length > 50) {
-        errors[`collection_${index}`] = "Collection must be 50 characters or less";
+        errors[`collection_${index}`] =
+          "Collection must be 50 characters or less";
       }
     });
 
@@ -202,13 +207,10 @@ const UpdateProduct = ({
   }, [editData]);
 
   // Handle input blur for validation
-  const handleInputBlur = useCallback(
-    (e) => {
-      const { name, value } = e.target;
-      setFormErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
-    },
-    []
-  );
+  const handleInputBlur = useCallback((e) => {
+    const { name, value } = e.target;
+    setFormErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+  }, []);
 
   // Fetch brands and colors
   useEffect(() => {
@@ -642,7 +644,9 @@ const UpdateProduct = ({
             (existing) =>
               existing.name === file.name && existing.size === file.size
           ) ||
-          validFiles.some((vf) => vf.name === file.name && vf.size === file.size)
+          validFiles.some(
+            (vf) => vf.name === file.name && vf.size === file.size
+          )
         ) {
           errors[
             `image_variant_${variantIndex}_${index}`
@@ -695,7 +699,8 @@ const UpdateProduct = ({
           }
         };
         reader.onerror = () => {
-          errors[`image_variant_${variantIndex}_${index}`] = "Error reading file";
+          errors[`image_variant_${variantIndex}_${index}`] =
+            "Error reading file";
           setUploadErrors((prev) => ({ ...prev, ...errors }));
         };
         reader.readAsDataURL(file);
@@ -712,9 +717,9 @@ const UpdateProduct = ({
   const removeImage = (variantIndex, imageIndex) => {
     setEditData((prev) => {
       const newVariants = [...prev.variants];
-      newVariants[variantIndex].images = newVariants[variantIndex].images.filter(
-        (_, i) => i !== imageIndex
-      );
+      newVariants[variantIndex].images = newVariants[
+        variantIndex
+      ].images.filter((_, i) => i !== imageIndex);
       return { ...prev, variants: newVariants };
     });
     setImagePreviews((prev) => {
@@ -768,7 +773,10 @@ const UpdateProduct = ({
       submitData.append("isActive", editData.isActive.toString());
       submitData.append("brand", editData.brand);
       submitData.append("discount", editData.discount || "");
-      submitData.append("specifications", JSON.stringify(editData.specifications));
+      submitData.append(
+        "specifications",
+        JSON.stringify(editData.specifications)
+      );
       submitData.append("collections", JSON.stringify(editData.collections));
       submitData.append("tags", JSON.stringify(editData.tags));
 
@@ -789,7 +797,10 @@ const UpdateProduct = ({
 
         const newImages = variant.images.filter((image) => image.file);
         newImages.forEach((image, imgIndex) => {
-          submitData.append(`variants[${index}][images][${imgIndex}]`, image.file);
+          submitData.append(
+            `variants[${index}][images][${imgIndex}]`,
+            image.file
+          );
         });
 
         const existingImages = variant.images.filter(
@@ -832,7 +843,7 @@ const UpdateProduct = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 top-15 lg:left-38">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 top-15 xl:left-38">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-6xl max-h-[70vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
@@ -848,7 +859,7 @@ const UpdateProduct = ({
           </button>
         </div>
 
-        {Object.keys(formErrors).length > 0 && (
+        {/* {Object.keys(formErrors).length > 0 && (
           <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
             <p className="text-red-600 text-sm font-medium">
               Please correct the following errors:
@@ -861,7 +872,7 @@ const UpdateProduct = ({
                 ))}
             </ul>
           </div>
-        )}
+        )} */}
 
         <form onSubmit={handleProductUpdate} className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
@@ -889,7 +900,9 @@ const UpdateProduct = ({
                 ))}
               </select>
               {formErrors.category && (
-                <p className="text-red-600 text-xs mt-1">{formErrors.category}</p>
+                <p className="text-red-600 text-xs mt-1">
+                  {formErrors.category}
+                </p>
               )}
             </div>
             <div>
@@ -1015,7 +1028,9 @@ const UpdateProduct = ({
                 disabled={updating || loading}
               />
               {formErrors.discount && (
-                <p className="text-red-600 text-xs mt-1">{formErrors.discount}</p>
+                <p className="text-red-600 text-xs mt-1">
+                  {formErrors.discount}
+                </p>
               )}
             </div>
           </div>
@@ -1535,7 +1550,8 @@ const UpdateProduct = ({
                           .filter(
                             (size) =>
                               !variant.sizes.some(
-                                (s) => s.size.toLowerCase() === size.toLowerCase()
+                                (s) =>
+                                  s.size.toLowerCase() === size.toLowerCase()
                               )
                           )
                           .map((size) => (
@@ -1624,7 +1640,7 @@ const UpdateProduct = ({
             <button
               type="submit"
               disabled={updating || loading}
-              className={`px-6 py-2 rounded-md transition-colors duration-200 hover:cursor-pointer${
+              className={`px-6 py-2 rounded-md transition-colors duration-200 hover:cursor-pointer ${
                 updating || loading
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-blue-600 text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
@@ -1643,7 +1659,7 @@ const UpdateProduct = ({
             <button
               onClick={onClose}
               disabled={updating || loading}
-              className={`px-6 py-2 rounded-md transition-colors duration-200 hover:cursor-pointer${
+              className={`px-6 py-2 rounded-md transition-colors duration-200 hover:cursor-pointer ${
                 updating || loading
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-gray-500 text-white hover:bg-gray-600 focus:ring-2 focus:ring-gray-500"

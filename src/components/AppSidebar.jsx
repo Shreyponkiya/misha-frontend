@@ -60,7 +60,7 @@ const AppSidebar = ({
 
           {/* Close Button (Mobile & Laptop) */}
           <button
-            className="2xl:hidden p-1 rounded hover:bg-gray-800 transition-colors"
+            className="xl:hidden p-1 rounded hover:bg-gray-800 transition-colors"
             onClick={handleCloseSidebar}
           >
             <X className="w-5 h-5" />
