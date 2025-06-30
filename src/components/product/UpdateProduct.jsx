@@ -798,7 +798,7 @@ const UpdateProduct = ({
         const newImages = variant.images.filter((image) => image.file);
         newImages.forEach((image, imgIndex) => {
           submitData.append(
-            `variants[${index}][images][${imgIndex}]`,
+            `variants[${index}][image]`,
             image.file
           );
         });
